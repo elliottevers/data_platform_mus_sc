@@ -1,0 +1,29 @@
+version: '2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper_poc
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:2.12-2.1.1
+    container_name: kafka_poc
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  postgres:
+    image: postgres:latest
+    container_name: postgres_poc
+    environment:
+      - "TZ=America/Denver"
+      - "POSTGRES_USER=platform_mus"
+      - "POSTGRES_PASSWORD=platform_mus"
+    ports:
+      - "5432:5432"  # credentials (shopping_cart:shopping_cart)
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra_poc
+    ports:
+      - "9042:9042"
