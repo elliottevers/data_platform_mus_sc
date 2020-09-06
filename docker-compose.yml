@@ -21,7 +21,7 @@ services:
       - "POSTGRES_USER=platform_mus"
       - "POSTGRES_PASSWORD=platform_mus"
     ports:
-      - "5432:5432"  # credentials (shopping_cart:shopping_cart)
+      - "5432:5432"
   cassandra:
     image: cassandra:latest
     container_name: cassandra_poc
