@@ -1,0 +1,2 @@
+- Generalize to Spotify tracks/playlists
+- Get Read-Side Processors working to keep track of sampled links

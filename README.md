@@ -1,1 +1,1 @@
-System to manage training data of Spotify and YouTube entities
+System to manage training data comprised of Spotify and YouTube entities
