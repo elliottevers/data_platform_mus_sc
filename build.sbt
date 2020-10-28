@@ -14,16 +14,18 @@ lagomKafkaPropertiesFile in ThisBuild :=
   Some((baseDirectory in ThisBuild).value / "project" / "kafka-server.properties")
 
 lazy val `platform` = (project in file("."))
-  .aggregate(`label-api`, `label-impl`, `sample-api`, `sample-impl`, `data-api`, `data-impl`)
+  .aggregate(`partition-api`, `partition-impl`, `sample-api`, `sample-impl`, `data-api`, `data-impl`)
 
-lazy val `label-api` = (project in file("label-api"))
+lazy val `partition-api` = (project in file("partition-api"))
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslApi
     )
   )
+//  .dependsOn(`partition-api`)
+  .dependsOn(`data-api`)
 
-lazy val `label-impl` = (project in file("label-impl"))
+lazy val `partition-impl` = (project in file("partition-impl"))
   .enablePlugins(LagomScala)
   .settings(
     libraryDependencies ++= Seq(
@@ -37,7 +39,9 @@ lazy val `label-impl` = (project in file("label-impl"))
     )
   )
   .settings(lagomForkedTestSettings)
-  .dependsOn(`label-api`)
+  .dependsOn(`partition-api`)
+  .dependsOn(`data-api`)
+  .dependsOn(`data-impl`)
 
 lazy val `sample-api` = (project in file("sample-api"))
   .settings(
@@ -52,20 +56,30 @@ lazy val `sample-impl` = (project in file("sample-impl"))
     libraryDependencies ++= Seq(
       lagomScaladslKafkaClient,
       lagomScaladslTestKit,
+      lagomScaladslPersistenceCassandra,
+      lagomScaladslPersistenceJdbc,
       macwire,
       scalaTest,
+      "com.softwaremill.sttp.client" %% "core" % "2.2.9",
+      "com.softwaremill.sttp.client" %% "http4s-backend" % "2.2.9",
+      "org.typelevel" %% "cats-effect" % "2.2.0"
     )
   )
   .settings(lagomForkedTestSettings)
   .dependsOn(`sample-api`)
+  .dependsOn(`partition-api`)
+  .dependsOn(`partition-impl`)
   .dependsOn(`data-api`)
+  .dependsOn(`data-impl`)
 
 
 lazy val `data-api` = (project in file("data-api"))
   .enablePlugins(LagomScala)
   .settings(
     libraryDependencies ++= Seq(
-      lagomScaladslApi
+      lagomScaladslApi,
+      "com.beachape" %% "enumeratum" % "1.6.1",
+      "com.beachape" %% "enumeratum-play-json" % "1.6.1"
     )
   )
 
@@ -79,7 +93,12 @@ lazy val `data-impl` = (project in file("data-impl"))
       lagomScaladslTestKit,
       macwire,
       scalaTest,
-      postgresDriver
+      postgresDriver,
+      "com.beachape" %% "enumeratum" % "1.6.1",
+      "com.beachape" %% "enumeratum-play-json" % "1.6.1",
+      "com.github.pureconfig" %% "pureconfig" % "0.14.0",
+      "com.softwaremill.sttp.client" %% "core" % "2.2.9",
+      "com.softwaremill.sttp.client3" %% "async-http-client-backend-future" % "3.0.0-RC6",
     )
   )
   .settings(lagomForkedTestSettings)
