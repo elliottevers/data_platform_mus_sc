@@ -1,2 +1,14 @@
 - Generalize to Spotify tracks/playlists
 - Get Read-Side Processors working to keep track of sampled links
+
+Dataset Demo:
+
+http://127.0.0.1:51399/dataset/a1ca7eb2-6f1c-43ac-bc51-38f705c56f7e
+
+Partition Demo:
+
+cebe3824-9fc5-4b64-9faf-593c879d25ec
+
+To sample for demo:
+
+http://127.0.0.1:60630/sample/cebe3824-9fc5-4b64-9faf-593c879d25ec?environment=train&typeRNG=quantum
